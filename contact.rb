@@ -4,16 +4,16 @@ class Contact
   attr_accessor :first_name, :last_name, :email, :note
 
    @@contacts = []
-   @@next_id = 1
+   @@id = 1
 
   def initialize(first_name, last_name, email, note)
   @first_name = first_name
   @last_name = last_name
   @email = email
   @note = note
-  @id = @@next_id
-  @next_id += 1
   @id = @@id
+  @@id += 1
+
   end
   # This method should call the initializer,
   # store the newly created contact, and then return it
@@ -44,13 +44,13 @@ class Contact
   # and then make the appropriate change to the contact
   def update(attribute, new_value)
     case attribute
-      when :first_name
+    when "first_name"
         self.first_name = new_value
-      when :last_name
+      when "last_name"
         self.last_name = new_value
-      when :email
+      when "email"
         self.email = new_value
-      when :note
+      when "note"
         self.note = new_value
       end
 
@@ -61,12 +61,11 @@ class Contact
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
   def self.find_by(attribute, value)
-   @@contacts.each do |find_by_attribute|
-    return find_by_attribute if attribute == :first_name && find_by_attribute.first_name == value
-    return find_by_attribute if attribute == :last_name && find_by_attribute.first_name == value
-    return find_by_attribute if attribute == :email && find_by_attribute.first_name == value
-    return find_by_attribute if attribute == :note && find_by_attribute.first_name == value
-
+    @@contacts.each do |contact|
+      if contact.send(attribute) == value
+        return contact
+      end
+    end
   end
 
   # This method should delete all of the contacts
